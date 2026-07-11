@@ -3,55 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ PREMIUM NEXUS - NETLIFY ENGINE</title>
-    
-    <!-- 🛑 Mobile Debugger (Logs) Set Exactly Here -->
+    <title>⚡ PREMIUM NEXUS</title>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
     <script>eruda.init();</script>
-    
-    <!-- Shaka Player Core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/controls.min.css">
     
     <style>
-        /* Premium UI CSS */
         :root { --primary-color: #00e5ff; --secondary-color: #b200ff; --background-dark: #0a0a0c; --card-background: #151518; --text-light: #e0e0e0; }
-        body { background-color: var(--background-dark); color: var(--text-light); font-family: -apple-system, sans-serif; margin: 0; padding-bottom: 60px; }
-        .top-navigation { position: sticky; top: 0; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(15px); z-index: 1000; padding: 20px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        .brand-logo { margin: 0 0 15px 0; font-size: 1.8em; font-weight: 900; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
-        .search-wrapper { position: relative; max-width: 600px; margin: 0 auto; }
-        .search-input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.05); color: white; font-size: 16px; outline: none; box-sizing: border-box; }
-        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #aaa; }
-        .video-wrapper { padding: 20px; max-width: 900px; margin: 0 auto; }
-        #video-container { width: 100%; aspect-ratio: 16/9; background-color: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); border: 1px solid rgba(255, 255, 255, 0.1); display: none; position: relative; }
-        video { width: 100%; height: 100%; display: block; outline: none; }
-        .channel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 20px; padding: 20px 30px; max-width: 1200px; margin: 0 auto; }
-        .channel-card { background: var(--card-background); border-radius: 12px; padding: 12px; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.05); text-align: center; }
-        .channel-card img { width: 100%; height: 75px; object-fit: contain; border-radius: 8px; background: #ffffff; margin-bottom: 10px; }
-        .channel-card h3 { font-size: 0.85em; margin: 0; color: #cccccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .system-status { text-align: center; padding: 60px; color: var(--primary-color); font-size: 1.4em; font-weight: bold; grid-column: 1 / -1; }
-        .error-message { color: #ff3366; text-align: center; padding: 40px; grid-column: 1 / -1; font-size: 1.2em; }
+        body { background-color: var(--background-dark); color: var(--text-light); font-family: sans-serif; margin: 0; padding-bottom: 60px; }
+        .top-navigation { position: sticky; top: 0; background: rgba(10, 10, 12, 0.95); z-index: 1000; padding: 20px; text-align: center; }
+        .brand-logo { margin: 0; font-size: 1.8em; font-weight: 900; color: var(--primary-color); }
+        .search-input { width: 90%; max-width: 500px; padding: 12px; margin-top: 15px; border-radius: 20px; border: none; background: #222; color: white; outline: none; text-align: center; }
+        .video-wrapper { padding: 10px; max-width: 900px; margin: 0 auto; }
+        #video-container { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 10px; display: none; }
+        video { width: 100%; height: 100%; outline: none; }
+        .channel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        .channel-card { background: var(--card-background); border-radius: 10px; padding: 10px; cursor: pointer; text-align: center; }
+        .channel-card img { width: 100%; height: 60px; object-fit: contain; background: #fff; border-radius: 5px; margin-bottom: 8px; }
+        .channel-card h3 { font-size: 0.8em; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .msg { text-align: center; padding: 40px; color: var(--primary-color); font-weight: bold; }
     </style>
 </head>
 <body>
-
     <div class="top-navigation">
         <h1 class="brand-logo">⚡ PREMIUM NEXUS</h1>
-        <div class="search-wrapper">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search Live TV...">
-        </div>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search Live TV...">
     </div>
-
     <div class="video-wrapper">
-        <div id="video-container">
-            <video id="video" controls autoplay playsinline></video>
-        </div>
+        <div id="video-container"><video id="video" controls autoplay playsinline></video></div>
     </div>
-
-    <div class="channel-grid" id="channelsGrid">
-        <div class="system-status">Initiating Netlify Engine...</div>
-    </div>
+    <div class="channel-grid" id="channelsGrid"><div class="msg">Loading Channels...</div></div>
 
     <script>
         const API_URL = 'https://jtvxweb.pages.dev/jstr4web.json';
@@ -61,14 +43,12 @@
         async function initializeSystem() {
             shaka.polyfill.installAll();
             setupShakaPlayer();
-
             try {
                 const response = await fetch(API_URL);
-                if (!response.ok) throw new Error("Failed to fetch JSON data.");
                 globalChannelList = await response.json();
                 renderChannelGrid(globalChannelList);
             } catch (error) {
-                document.getElementById('channelsGrid').innerHTML = '<div class="error-message">Database Connection Failed.</div>';
+                document.getElementById('channelsGrid').innerHTML = '<div class="msg">Database Connection Failed.</div>';
             }
         }
 
@@ -76,77 +56,57 @@
             const videoElement = document.getElementById('video');
             shakaPlayerInstance = new shaka.Player(videoElement);
             
-            shakaPlayerInstance.addEventListener('error', function(event) {
-                console.error('Shaka Error:', event.detail);
-                if(event.detail && event.detail.code) {
-                    alert("Stream Error Code: " + event.detail.code);
+            // 🛑 THE ULTIMATE FILTER: Har ek segment proxy se jayega
+            shakaPlayerInstance.getNetworkingEngine().registerRequestFilter(function(type, request) {
+                let url = request.uris[0];
+                if (url.includes('jiotvmblive.cdn.jio.com') && !url.includes('/proxy/jiotv')) {
+                    request.uris[0] = url.replace('https://jiotvmblive.cdn.jio.com', '/proxy/jiotv');
+                } else if (url.includes('nw18live.cdn.jio.com') && !url.includes('/proxy/nw18')) {
+                    request.uris[0] = url.replace('https://nw18live.cdn.jio.com', '/proxy/nw18');
+                } else if (url.includes('times-ott-live.akamaized.net') && !url.includes('/proxy/times')) {
+                    request.uris[0] = url.replace('https://times-ott-live.akamaized.net', '/proxy/times');
                 }
             });
+
+            shakaPlayerInstance.addEventListener('error', e => console.error('Shaka Error:', e.detail));
         }
 
         function renderChannelGrid(channelsToRender) {
             const gridContainer = document.getElementById('channelsGrid');
             gridContainer.innerHTML = ''; 
-            
-            if (channelsToRender.length === 0) {
-                gridContainer.innerHTML = '<div class="error-message">No channels found.</div>';
-                return;
-            }
-
             channelsToRender.forEach(channel => {
-                const cardElement = document.createElement('div');
-                cardElement.className = 'channel-card';
-                cardElement.innerHTML = `
-                    <img loading="lazy" src="${channel.logo}">
-                    <h3>${channel.name}</h3>
-                `;
-                
-                cardElement.onclick = () => {
+                const card = document.createElement('div');
+                card.className = 'channel-card';
+                card.innerHTML = `<img loading="lazy" src="${channel.logo}"><h3>${channel.name}</h3>`;
+                card.onclick = () => {
                     document.getElementById('video-container').style.display = 'block';
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     executePlayback(channel.url, channel.keyId, channel.key);
                 };
-                gridContainer.appendChild(cardElement);
+                gridContainer.appendChild(card);
             });
         }
 
-        document.getElementById('searchInput').addEventListener('input', function(event) {
-            const searchTerm = event.target.value.toLowerCase();
-            renderChannelGrid(globalChannelList.filter(channel => 
-                channel.name.toLowerCase().includes(searchTerm) || 
-                channel.category.toLowerCase().includes(searchTerm)
-            ));
+        document.getElementById('searchInput').addEventListener('input', e => {
+            const term = e.target.value.toLowerCase();
+            renderChannelGrid(globalChannelList.filter(ch => ch.name.toLowerCase().includes(term) || ch.category.toLowerCase().includes(term)));
         });
 
         async function executePlayback(streamUrl, drmKeyId, drmKeyInfo) {
             try {
-                let finalUrl = streamUrl;
-                if (streamUrl.includes('jiotvmblive.cdn.jio.com')) {
-                    finalUrl = streamUrl.replace('https://jiotvmblive.cdn.jio.com', '/proxy/jiotv');
-                } else if (streamUrl.includes('nw18live.cdn.jio.com')) {
-                    finalUrl = streamUrl.replace('https://nw18live.cdn.jio.com', '/proxy/nw18');
-                } else if (streamUrl.includes('times-ott-live.akamaized.net')) {
-                    finalUrl = streamUrl.replace('https://times-ott-live.akamaized.net', '/proxy/times');
-                }
-
                 if (drmKeyId && drmKeyInfo && drmKeyId !== "null" && drmKeyInfo !== "null") {
-                    shakaPlayerInstance.configure({
-                        drm: { clearKeys: { [drmKeyId]: drmKeyInfo } }
-                    });
+                    shakaPlayerInstance.configure({ drm: { clearKeys: { [drmKeyId]: drmKeyInfo } } });
                 } else {
                     shakaPlayerInstance.configure({ drm: { clearKeys: {} } });
                 }
                 
-                console.log("Loading URL:", finalUrl);
-                await shakaPlayerInstance.load(finalUrl);
+                // Hum original URL hi load karenge, Filter apne aap proxy add kar dega
+                await shakaPlayerInstance.load(streamUrl);
                 document.getElementById('video').play();
-                
             } catch (error) {
-                console.error("Execute Playback Error:", error);
-                alert("Failed to decrypt or load stream. Error: " + error.code);
+                alert("Failed! Error: " + error.code);
             }
         }
-
         document.addEventListener('DOMContentLoaded', initializeSystem);
     </script>
 </body>
