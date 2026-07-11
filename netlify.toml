@@ -1,0 +1,17 @@
+[[redirects]]
+  from = "/proxy/jiotv/*"
+  to = "https://jiotvmblive.cdn.jio.com/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/proxy/nw18/*"
+  to = "https://nw18live.cdn.jio.com/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/proxy/times/*"
+  to = "https://times-ott-live.akamaized.net/:splat"
+  status = 200
+  force = true
