@@ -1,0 +1,3 @@
+/proxy/jiotv/*  https://jiotvmblive.cdn.jio.com/:splat  200
+/proxy/nw18/*   https://nw18live.cdn.jio.com/:splat     200
+/proxy/times/*  https://times-ott-live.akamaized.net/:splat 200
