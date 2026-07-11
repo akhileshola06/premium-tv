@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡ PREMIUM NEXUS - NETLIFY ENGINE</title>
     
+    <!-- 🛑 Mobile Debugger (Logs) Set Exactly Here -->
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
+    
     <!-- Shaka Player Core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/controls.min.css">
@@ -46,7 +50,7 @@
     </div>
 
     <div class="channel-grid" id="channelsGrid">
-        <div class="system-status">Initiating Netlify Bypass...</div>
+        <div class="system-status">Initiating Netlify Engine...</div>
     </div>
 
     <script>
@@ -116,7 +120,6 @@
 
         async function executePlayback(streamUrl, drmKeyId, drmKeyInfo) {
             try {
-                // 🔐 THE MAGIC: URL REPLACE FOR NETLIFY REDIRECTS
                 let finalUrl = streamUrl;
                 if (streamUrl.includes('jiotvmblive.cdn.jio.com')) {
                     finalUrl = streamUrl.replace('https://jiotvmblive.cdn.jio.com', '/proxy/jiotv');
@@ -134,7 +137,7 @@
                     shakaPlayerInstance.configure({ drm: { clearKeys: {} } });
                 }
                 
-                console.log("Loading Proxy URL:", finalUrl);
+                console.log("Loading URL:", finalUrl);
                 await shakaPlayerInstance.load(finalUrl);
                 document.getElementById('video').play();
                 
