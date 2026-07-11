@@ -3,148 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ PREMIUM NEXUS</title>
+    <title>⚡ PREMIUM NEXUS - ADVANCED ENGINE</title>
     
-    <!-- Shaka Player Core -->
+    <!-- Shaka Player Core (Unminified/Full Version for better error tracking) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/controls.min.css">
     
     <style>
-        /* Premium UI CSS */
-        :root { --primary: #00e5ff; --bg-dark: #0a0a0c; --card-bg: #151518; --text-light: #e0e0e0; }
-        body { background-color: var(--bg-dark); color: var(--text-light); font-family: sans-serif; margin: 0; padding-bottom: 50px; }
-        .top-nav { position: sticky; top: 0; background: rgba(10, 10, 12, 0.9); backdrop-filter: blur(15px); z-index: 1000; padding: 15px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .logo-text { margin: 0 0 15px 0; font-size: 1.5em; font-weight: 800; background: linear-gradient(90deg, #00e5ff, #b200ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .search-container { position: relative; max-width: 500px; margin: 0 auto; }
-        .search-bar { width: 100%; padding: 12px 20px 12px 45px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: white; font-size: 16px; outline: none; box-sizing: border-box; }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #888; }
-        
-        .player-section { padding: 10px; max-width: 800px; margin: 0 auto; }
-        #video-container { width: 100%; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: none; }
-        video { width: 100%; height: auto; outline: none; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: 0 auto; }
-        .card { background: var(--card-bg); border-radius: 12px; padding: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.02); text-align: center; }
-        .card img { width: 100%; height: 70px; object-fit: contain; border-radius: 8px; background: #fff; margin-bottom: 8px; }
-        .card h3 { font-size: 0.75em; margin: 0; color: #aaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .loader, .no-results { text-align: center; padding: 50px; color: var(--primary); font-weight: bold; }
+        /* Premium UI Variables */
+        :root {
+            --primary-color: #00e5ff;
+            --secondary-color: #b200ff;
+            --background-dark: #0a0a0c;
+            --card-background: #151518;
+            --text-light: #e0e0e0;
+        }
+
+        /* General Body Styling */
+        body {
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 60px;
+        }
+
+        /* Header and Navigation */
+        .top-navigation {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 12, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .brand-logo {
+            margin: 0 0 15px 0;
+            font-size: 1.8em;
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Search Bar Setup */
+        .search-wrapper {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #aaa;
+        }
+
+        /* Video Player Container */
+        .video-wrapper {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        #video-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none; /* Hidden by default until a video is clicked */
+            position: relative;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            outline: none;
+        }
+
+        /* Channel Grid Layout */
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+            padding: 20px 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Individual Channel Card */
+        .channel-card {
+            background: var(--card-background);
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 229, 255, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(0, 229, 255, 0.2);
+        }
+
+        .channel-card img {
+            width: 100%;
+            height: 75px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #ffffff;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .channel-card h3 {
+            font-size: 0.85em;
+            margin: 0;
+            color: #cccccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 600;
+        }
+
+        .channel-card:hover h3 {
+            color: #ffffff;
+        }
+
+        /* Status Messages */
+        .system-status {
+            text-align: center;
+            padding: 60px;
+            color: var(--primary-color);
+            font-size: 1.4em;
+            font-weight: bold;
+            grid-column: 1 / -1; /* Spans across all columns */
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; text-shadow: 0 0 20px var(--primary-color); }
+            100% { opacity: 0.6; }
+        }
+
+        .error-message {
+            color: #ff3366;
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+            font-size: 1.2em;
+        }
     </style>
 </head>
 <body>
 
-    <div class="top-nav">
-        <h1 class="logo-text">⚡ PREMIUM NEXUS</h1>
-        <div class="search-container">
+    <!-- Top Navigation Area -->
+    <div class="top-navigation">
+        <h1 class="brand-logo">⚡ PREMIUM NEXUS</h1>
+        <div class="search-wrapper">
             <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" class="search-bar" placeholder="Search live channels, sports...">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search for Live TV, Sports, Movies...">
         </div>
     </div>
 
-    <!-- Native Mobile Video Player -->
-    <div class="player-section">
+    <!-- Video Player Section -->
+    <div class="video-wrapper">
         <div id="video-container">
             <video id="video" controls autoplay playsinline></video>
         </div>
     </div>
 
-    <div class="grid" id="channelsGrid">
-        <div class="loader">Bypassing Firewalls...</div>
+    <!-- Grid to hold all channels -->
+    <div class="channel-grid" id="channelsGrid">
+        <div class="system-status">Initiating Deep Scan for Broadcasts...</div>
     </div>
 
     <script>
+        // Data Source
         const API_URL = 'https://jtvxweb.pages.dev/jstr4web.json';
         
-        // 🔥 NAYA HATHIYAAR: Fast CORS Proxy
-        const PROXY = 'https://corsproxy.io/?'; 
-        
-        let shakaPlayer;
-        let globalChannels = [];
+        // Proxy Fallbacks to bypass CORS (Error 1001)
+        const PROXY_1 = 'https://api.allorigins.win/raw?url=';
+        const PROXY_2 = 'https://corsproxy.io/?';
 
-        async function bootSystem() {
+        let shakaPlayerInstance;
+        let globalChannelList = [];
+
+        // Main Boot Function
+        async function initializeSystem() {
+            // Install polyfills for compatibility across devices
             shaka.polyfill.installAll();
             
             if (!shaka.Player.isBrowserSupported()) {
-                alert("Browser Support Error! Try using Chrome.");
+                alert("Critical Error: Your browser does not support HTML5 Encrypted Media Extensions (EME). Please use Chrome.");
                 return;
             }
 
-            initShaka();
+            setupShakaPlayer();
+
             try {
                 const response = await fetch(API_URL);
-                globalChannels = await response.json();
-                renderChannels(globalChannels);
+                if (!response.ok) throw new Error("Failed to fetch JSON data.");
+                
+                globalChannelList = await response.json();
+                renderChannelGrid(globalChannelList);
             } catch (error) {
-                document.getElementById('channelsGrid').innerHTML = '<div class="no-results">Failed to load channels data!</div>';
+                console.error("Fetch Error:", error);
+                document.getElementById('channelsGrid').innerHTML = '<div class="error-message">Connection to Nexus Database Failed. Please refresh.</div>';
             }
         }
 
-        function initShaka() {
-            const video = document.getElementById('video');
-            shakaPlayer = new shaka.Player(video);
+        // Setup the Player and Network Filters
+        function setupShakaPlayer() {
+            const videoElement = document.getElementById('video');
+            shakaPlayerInstance = new shaka.Player(videoElement);
 
-            // 🛠️ THE MAGIC TRICK: Har ek request ko proxy ke andar se bhejna
-            shakaPlayer.getNetworkingEngine().registerRequestFilter(function(type, request) {
-                // Agar request me pehle se proxy nahi hai, toh add karo
-                if (!request.uris[0].includes('corsproxy.io')) {
-                    request.uris[0] = PROXY + encodeURIComponent(request.uris[0]);
+            // Configure advanced retry logic for bad network conditions
+            shakaPlayerInstance.configure({
+                streaming: {
+                    retryParameters: {
+                        timeout: 10000,       // wait 10 seconds before timing out
+                        maxAttempts: 5,       // retry 5 times
+                        baseDelay: 1000,
+                        backoffFactor: 2,
+                        fuzzFactor: 0.5,
+                    }
                 }
             });
-            
-            shakaPlayer.addEventListener('error', (e) => {
-                console.error('Shaka Error:', e);
-                if (e.detail && e.detail.code) {
-                    alert("Stream blocked by Provider. Error Code: " + e.detail.code);
+
+            // The Network Interceptor: This is the core logic to fight Error 1001
+            shakaPlayerInstance.getNetworkingEngine().registerRequestFilter(function(type, request) {
+                const originalUrl = request.uris[0];
+                
+                // If the request is going to Jio servers, route it through a proxy
+                if (originalUrl.includes('jiotvmblive') || originalUrl.includes('jio.com')) {
+                    // Using AllOrigins raw proxy as the primary bypass
+                    request.uris[0] = PROXY_1 + encodeURIComponent(originalUrl);
+                    
+                    // Add standard headers to mimic a normal browser request
+                    request.headers['Accept'] = '*/*';
+                    request.headers['Origin'] = 'https://shola06.github.io';
                 }
+            });
+
+            // Detailed Error Tracking
+            shakaPlayerInstance.addEventListener('error', function(event) {
+                console.error('Shaka Error Object:', event.detail);
+                
+                let errorMessage = "Playback Failed!";
+                if (event.detail && event.detail.code) {
+                    if (event.detail.code === 1001) {
+                        errorMessage = "Error 1001: Jio Servers blocked the Proxy. We need a dedicated Backend Server for this.";
+                    } else {
+                        errorMessage = "Stream Error Code: " + event.detail.code;
+                    }
+                }
+                alert(errorMessage);
             });
         }
 
-        function renderChannels(channels) {
-            const grid = document.getElementById('channelsGrid');
-            grid.innerHTML = ''; 
+        // Render Channels to the Screen
+        function renderChannelGrid(channelsToRender) {
+            const gridContainer = document.getElementById('channelsGrid');
+            gridContainer.innerHTML = ''; 
             
-            if (channels.length === 0) {
-                grid.innerHTML = '<div class="no-results">No channels found!</div>';
+            if (channelsToRender.length === 0) {
+                gridContainer.innerHTML = '<div class="error-message">No matching channels found in the database.</div>';
                 return;
             }
 
-            channels.forEach(ch => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `<img loading="lazy" src="${ch.logo}"><br><h3>${ch.name}</h3>`;
-                card.onclick = () => {
-                    document.getElementById('video-container').style.display = 'block';
+            channelsToRender.forEach(channel => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'channel-card';
+                
+                // Using lazy loading for images to prevent lag
+                cardElement.innerHTML = `
+                    <img loading="lazy" src="${channel.logo}" alt="${channel.name}" onerror="this.src='https://via.placeholder.com/120x75/222/00e5ff?text=TV'">
+                    <h3>${channel.name}</h3>
+                `;
+                
+                // Play logic on click
+                cardElement.onclick = () => {
+                    const videoContainer = document.getElementById('video-container');
+                    videoContainer.style.display = 'block';
+                    
+                    // Smoothly scroll to the player
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                    startPlayback(ch.url, ch.keyId, ch.key);
+                    
+                    executePlayback(channel.url, channel.keyId, channel.key);
                 };
-                grid.appendChild(card);
+                
+                gridContainer.appendChild(cardElement);
             });
         }
 
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            renderChannels(globalChannels.filter(ch => ch.name.toLowerCase().includes(term) || ch.category.toLowerCase().includes(term)));
+        // Handle Search Bar Input
+        document.getElementById('searchInput').addEventListener('input', function(event) {
+            const searchTerm = event.target.value.toLowerCase();
+            
+            const filteredChannels = globalChannelList.filter(channel => 
+                channel.name.toLowerCase().includes(searchTerm) || 
+                channel.category.toLowerCase().includes(searchTerm)
+            );
+            
+            renderChannelGrid(filteredChannels);
         });
 
-        async function startPlayback(url, keyId, keyInfo) {
+        // Decryption and Stream Loading Engine
+        async function executePlayback(streamUrl, drmKeyId, drmKeyInfo) {
             try {
-                // 1. Set the Keys
-                if (keyId && keyInfo && keyId !== "null" && keyInfo !== "null") {
-                    shakaPlayer.configure({
-                        drm: { clearKeys: { [keyId]: keyInfo } }
+                // Step 1: Configure ClearKey DRM if keys are available
+                if (drmKeyId && drmKeyInfo && drmKeyId !== "null" && drmKeyInfo !== "null") {
+                    shakaPlayerInstance.configure({
+                        drm: {
+                            clearKeys: {
+                                [drmKeyId]: drmKeyInfo
+                            }
+                        }
                     });
+                    console.log("DRM Keys Applied for Encrypted Stream.");
                 } else {
-                    shakaPlayer.configure({ drm: { clearKeys: {} } });
+                    // Clear keys for Free-To-Air channels
+                    shakaPlayerInstance.configure({
+                        drm: { clearKeys: {} }
+                    });
+                    console.log("No DRM Keys required for this stream.");
                 }
                 
-                // 2. Play the Video (Proxy is handled automatically by the filter)
-                await shakaPlayer.load(url);
+                // Step 2: Load the URL into the player
+                console.log("Attempting to load stream:", streamUrl);
+                await shakaPlayerInstance.load(streamUrl);
+                
+                // Step 3: Force Play
                 document.getElementById('video').play();
-            } catch (e) {
-                console.error(e);
-                alert("Decryption Failed! Signal lost.");
+                
+            } catch (error) {
+                console.error("Execute Playback Error:", error);
+                
+                if (error.code === 1001) {
+                    alert("Error 1001: Jio Network Blocked the Connection. The free proxy cannot handle live video segments.");
+                } else {
+                    alert("Failed to decrypt or load stream. Signal lost.");
+                }
             }
         }
 
-        document.addEventListener('DOMContentLoaded', bootSystem);
+        // Start the system when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', initializeSystem);
     </script>
 </body>
 </html>
